@@ -1,1 +1,1 @@
-web: gunicorn turis.wsgi --log-file -
+web: gunicorn icity_tax.wsgi --log-file -
