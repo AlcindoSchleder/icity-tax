@@ -1,0 +1,434 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+	i-City Taxes Calc
+{% endblock %}
+
+{% block head %}
+	{% include 'header.html' %}
+{% endblock %}
+
+{% block menu %}
+	{% include 'menu.html' %}
+{% endblock %}
+
+{% block services %}
+	<section class="main-section" id="service">
+		<!--main-section-start-->
+		<div class="container">
+			<h1 class="title-h2 text-center">Serviços</h1>
+			<div class="title-h4 text-center pb-5 mb-5">A qualidade que você procura para sua empresa.</div>
+			<div class="row">
+				<div class="col-lg-4 col-sm-6 wow fadeInLeft delay-05s">
+					<div class="service-list">
+						<div class="service-list-col1">
+							<i class="fa fa-paw"></i>
+						</div>
+						<div class="service-list-col2">
+							<h3 class="title-h3">Marca &amp; Identidade</h3>
+							<p>Os produtos i-City implementam tecnologias de ponta faciliando a experiência do usuário.</p>
+						</div>
+					</div>
+					<div class="service-list">
+						<div class="service-list-col1">
+							<i class="fa fa-gear"></i>
+						</div>
+						<div class="service-list-col2">
+							<h3 class="title-h3">Cálculo de impostos</h3>
+							<p>Uma API que retorna a lista de impostos de todos os produtos classificados no NCM, originando em qualquer estado e com destino a qualquer lugar.</p>
+						</div>
+					</div>
+					<div class="service-list">
+						<div class="service-list-col1">
+							<i class="fa fa-globe"></i>
+						</div>
+						<div class="service-list-col2">
+							<h3 class="title-h3">Compatibilidade</h3>
+							<p>O retorno é um objeto Json, que é compatível com todas as linguagens modernas utilizadas.</p>
+						</div>
+					</div>
+					<div class="service-list">
+						<div class="service-list-col1">
+							<i class="fa fa-medkit"></i>
+						</div>
+						<div class="service-list-col2">
+							<h3 class="title-h3">Suporte 24/7</h3>
+							<p>Além do nosso quadro de analistas, nossos clientes podem contar com um assistente virtual treinado para resolver as mais variadas situações.</p>
+						</div>
+					</div>
+				</div>
+				<figure class="col-lg-8 col-sm-6  text-right wow fadeInUp delay-02s">
+					<img src="{% static 'img/macbook-pro.png' %}" alt="">
+				</figure>
+
+			</div>
+		</div>
+	</section>
+	<!--main-section-end-->
+{% endblock %}
+
+{% block works %}
+	<section class="main-section alabaster">
+		<!--main-section alabaster-start-->
+		<div class="container">
+			<div class="row">
+				<figure class="col-lg-5 col-sm-4 wow fadeInLeft">
+					<img src="{% static 'img/iphone.png' %}" alt="">
+				</figure>
+				<div class="col-lg-7 col-sm-8 featured-work">
+					<h2 class="title-h2">Recursos da API</h2>
+					<p class="pb-5 mb-5">API i-City-tax tem a finalidade de provisionar aos nossos clientes uma forma fácil e rápida de calcular os impostos de venda dos produtos. Listamos abaixo alguns recursos da API i-City-tax:</p>
+					<div class="featured-box">
+						<div class="featured-box-col1 wow fadeInRight delay-02s">
+							<i class="fa fa-magic"></i>
+						</div>
+						<div class="featured-box-col2 wow fadeInRight delay-02s">
+							<h3 class="title-h3">Classificação NCM</h3>
+							<p>A API recebe do cliente o código NCM do Produto e o estado de destino do da venda, que nos permite então, encontrar a alíquota certa para cada produto.</p>
+						</div>
+					</div>
+					<div class="featured-box">
+						<div class="featured-box-col1 wow fadeInRight delay-04s">
+							<i class="fa fa-gift"></i>
+						</div>
+						<div class="featured-box-col2 wow fadeInRight delay-04s">
+							<h3 class="title-h3">Informação em Lote</h3>
+							<p>O cliente deve enviar uma lista dos produtos no formato pré-definido, assim retornamos as alíquotas para cada um dos produtos informados.</p>
+						</div>
+					</div>
+					<div class="featured-box">
+						<div class="featured-box-col1 wow fadeInRight delay-06s">
+							<i class="fa fa-dashboard"></i>
+						</div>
+						<div class="featured-box-col2 wow fadeInRight delay-06s">
+							<h3 class="title-h3">Retorno das Alíquotas</h3>
+							<p>Depois de realizada a busca das Alíquotas, e, se informada a quantidade dos produtos, a API vai calcular o total do imposto para cada produto, o valor da Base de Cáculo, o valor da Redução da base de cálculo (se exisitir) e as mensagens informativas definidas por lei para os produtos da NF</p>
+						</div>
+					</div>
+					<a class="Learn-More" href="#">Saiba Mais</a>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--main-section alabaster-end-->
+{% endblock %}
+
+{% block plans %}
+    <section class="main-section header" id="plans">
+        <div class="container">
+			<h2 class="title-h2 text-white pb-5 mb-5">
+				Nossos Planos Comerciais
+				<span class="superscript plan-period">&nbsp;&nbsp;/&nbsp;mês</span>
+			</h2>
+            <div class="row">
+                <div class="col-xs-12 col-md-4">
+                    <div class="box-plans">
+                        <h3 class="box-header title-h2 py-3 bg-success">Plano Prata</h3>
+                        <div class="box-body">
+							<div class="text-center">
+								<div class="title-h2 text-white">R$ 45,00</div>
+								<small class="card-subtitle">Primeiro mês GRÁTIS</small>
+							</div>
+							<div  class="flip-container" ontouchstart="this.classList.toggle('hover');">
+								<div class=" flipper">
+									<table class="table front">
+										<tr class="active"><td>1 Conta</td></tr>
+										<tr class="active"><td>300 Consultas/mês na API</td></tr>
+										<tr class="active"><td>R$ 0,20 centavos excedente</td></tr>
+									</table>
+									<div class="alert alert-info back">
+										<strong>Obs:</strong>&nbsp;Uma consulta é cada chamada para a API, seja
+										por produto individual ou lote de produtos. Portanto, se sua chamada contém
+										um lote de 50 produtos, será contabilizada como somente uma consulta!
+									</div>
+								</div>
+							</div>
+                        </div>
+						<div class="box-footer bg-success py-2">
+							<a href="http://tax.icity.net.br/signin.html" class="btn btn-outline-light" role="button">Assinar</a>
+							<span class="ml-3 text-white">Primeiro mês GRÁTIS</span>
+						</div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <div class="box-plans">
+						<div class="ribbon"><span>MAIS VENDIDO</span></div>
+                        <h3 class="box-header title-h2 py-3 bg-success">Plano Ouro</h3>
+                        <div class="box-body">
+							<div class="text-center">
+								<div class="title-h2 text-white">R$ 150,00</div>
+								<small class="card-subtitle">Primeiro mês GRÁTIS</small>
+							</div>
+							<div  class="flip-container" ontouchstart="this.classList.toggle('hover');">
+								<div class=" flipper">
+									<table class="table front">
+										<tr class="active"><td>2 Conta</td></tr>
+										<tr class="active"><td>1.500 Consultas/mês na API</td></tr>
+										<tr class="active"><td>R$ 0,20 centavos excedente</td></tr>
+									</table>
+									<div class="alert alert-info back">
+										<strong>Obs:</strong>&nbsp;Uma consulta é cada chamada para a API, seja
+										por produto individual ou lote de produtos. Portanto, se sua chamada contém
+										um lote de 50 produtos, será contabilizada como somente uma consulta!
+									</div>
+								</div>
+							</div>
+                        </div>
+						<div class="box-footer bg-success py-2">
+							<a href="http://tax.icity.net.br/signin.html" class="btn btn-outline-light" role="button">Assinar</a>
+							<span class="ml-3 text-white">Primeiro mês GRÁTIS</span>
+						</div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-4">
+                    <div class="box-plans">
+                        <h3 class="box-header title-h2 py-3 bg-success">Plano VIP</h3>
+                        <div class="box-body">
+							<div class="text-center">
+								<div class="title-h2 text-white">R$ 45,00</div>
+								<small class="card-subtitle">Primeiro mês GRÁTIS</small>
+							</div>
+							<div  class="flip-container" ontouchstart="this.classList.toggle('hover');">
+								<div class=" flipper">
+									<table class="table front">
+										<tr class="active"><td>5 Conta</td></tr>
+										<tr class="active"><td>mínimo 4.500 Consultas/mês na API</td></tr>
+										<tr class="active"><td>R$ 0,11 centavos excedente</td></tr>
+									</table>
+									<div class="alert alert-info back">
+										<strong>Obs:</strong>&nbsp;Uma consulta é cada chamada para a API, seja
+										por produto individual ou lote de produtos. Portanto, se sua chamada contém
+										um lote de 50 produtos, será contabilizada como somente uma consulta!
+									</div>
+								</div>
+							</div>
+                        </div>
+						<div class="box-footer bg-success py-2">
+							<a href="http://tax.icity.net.br/signin.html" class="btn btn-outline-light" role="button">Assinar</a>
+							<span class="ml-3 text-white">Primeiro mês GRÁTIS</span>
+						</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block partners %}
+	<!--main-section client-part-start-->
+	<section class="main-section client-part" id="client">
+		<div class="container">
+			<h2 class="title-h2 text-white pb-5 mb-5">
+				Opiniões dos Clientes
+			</h2>
+			<b class="quote-right wow fadeInDown delay-03"><i class="fa fa-quote-right"></i></b>
+			<div class="row">
+				<div class="col-lg-12">
+					<p class="client-part-haead wow fadeInDown delay-05">Nossos sistemas ficaram muitos mais leves com a solução apresentada pela i-City. Eles sabem o que fazem!</p>
+				</div>
+			</div>
+			<ul class="client wow fadeIn delay-05s">
+				<li><a href="#">
+            	<img src="{% static 'img/client-pic1.jpg' %}" alt="">
+                <h3>Antônio Nunes</h3>
+                <span>AValue Sistemas Especializados</span>
+            </a></li>
+			</ul>
+		</div>
+	</section>
+	<!--main-section client-part-end-->
+	<div class="c-logo-part">
+		<!--c-logo-part-start-->
+		<div class="container">
+			<ul>
+				<li><a href="#"><img src="{% static 'img/c-liogo1.png' %}" alt=""></a></li>
+				<li><a href="#"><img src="{% static 'img/c-liogo2.png' %}" alt=""></a></li>
+				<li><a href="#"><img src="{% static 'img/c-liogo3.png' %}" alt=""></a></li>
+				<li><a href="#"><img src="{% static 'img/c-liogo4.png' %}" alt=""></a></li>
+				<li><a href="#"><img src="{% static 'img/c-liogo5.png' %}" alt=""></a></li>
+			</ul>
+		</div>
+	</div>
+	<!--c-logo-part-end-->
+{% endblock %}
+
+{% block team %}
+	<section class="main-section team" id="team">
+		<!--main-section team-start-->
+		<div class="container">
+			<h2>Nossos Colaboradores</h2>
+			<div class="title-h6">Uma super equipe no comando dos produtos i-City</div>
+			<div class="team-leader-block clearfix">
+				<div class="team-leader-box">
+					<div class="team-leader wow fadeInDown delay-03s">
+						<div class="team-leader-shadow circle"><a href="#"></a></div>
+						<img src="{% static 'img/team-leader-pic1.png' %}" alt="">
+						<ul>
+							<li><a href="#" class="fa fa-twitter"></a></li>
+							<li><a href="#" class="fa fa-facebook"></a></li>
+							<li><a href="#" class="fa fa-pinterest"></a></li>
+							<li><a href="#" class="fa fa-google-plus"></a></li>
+						</ul>
+					</div>
+					<h3 class="wow fadeInDown delay-03s">Alcindo Schleder</h3>
+					<span class="wow fadeInDown delay-03s">Arquiteto de Soluções</span>
+					<p class="wow fadeInDown delay-03s">Sólida experiência na área de TI, com destaque em Redes, Soluções de IoT, Inteligência Artificial e Desenvolvimento, sempre atuando de maneira dedicada e comprometida com o trabalho.</p>
+				</div>
+				<div class="team-leader-box">
+					<div class="team-leader  wow fadeInDown delay-06s">
+						<div class="team-leader-shadow"><a href="#"></a></div>
+						<img src="{% static 'img/team-leader-pic2.jpg' %}" alt="">
+						<ul>
+							<li><a href="#" class="fa fa-twitter"></a></li>
+							<li><a href="#" class="fa fa-facebook"></a></li>
+							<li><a href="#" class="fa fa-pinterest"></a></li>
+							<li><a href="#" class="fa fa-google-plus"></a></li>
+						</ul>
+					</div>
+					<h3 class="wow fadeInDown delay-06s">Jesse Pinkman</h3>
+					<span class="wow fadeInDown delay-06s">Product Manager</span>
+					<p class="wow fadeInDown delay-06s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat sollicitudin cursus. Dolor sit amet, consectetur adipiscing elit proin consequat.</p>
+				</div>
+				<div class="team-leader-box">
+					<div class="team-leader wow fadeInDown delay-09s">
+						<div class="team-leader-shadow"><a href="#"></a></div>
+						<img src="{% static 'img/team-leader-pic3.jpg' %}" alt="">
+						<ul>
+							<li><a href="#" class="fa fa-twitter"></a></li>
+							<li><a href="#" class="fa fa-facebook"></a></li>
+							<li><a href="#" class="fa fa-pinterest"></a></li>
+							<li><a href="#" class="fa fa-google-plus"></a></li>
+						</ul>
+					</div>
+					<h3 class="wow fadeInDown delay-09s">Skyler white</h3>
+					<span class="wow fadeInDown delay-09s">Accountant</span>
+					<p class="wow fadeInDown delay-09s">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin consequat sollicitudin cursus. Dolor sit amet, consectetur adipiscing elit proin consequat.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--main-section team-end-->
+{% endblock %}
+
+{% block contact %}
+	<section class="business-talking">
+		<!--business-talking-start-->
+		<div class="container">
+			<h2>Vamos falar de negócios.</h2>
+		</div>
+	</section>
+	<!--business-talking-end-->
+	<div class="container">
+		<section class="main-section contact" id="contact">
+			<h2 class="title-h2 text-center pb-5">Envie-nos uma mensagem</h2>
+			<div class="row">
+				<div class="col-lg-6 col-sm-7 wow fadeInLeft">
+					<div class="contact-info-box address clearfix">
+						<div class="title-h4 font-weight-bold"><i class="fa fa-map-marker"></i>&nbsp;Endereço:</div>
+						<span>Rua Carlos Gomes, 1901<br>Porto Alegre, Brazil, 79100-000.</span>
+					</div>
+					<div class="contact-info-box phone clearfix">
+						<div class="title-h4 font-weight-bold"><i class="fa fa-phone"></i>&nbsp;Fone:</div>
+						<span>(51) 3333-7676</span>
+					</div>
+					<div class="contact-info-box email clearfix">
+						<div class="title-h4 font-weight-bold"><i class="fa fa-pencil"></i>&nbsp;email:</div>
+						<span>comercial@icity.net.br</span>
+					</div>
+					<div class="contact-info-box hours clearfix">
+						<div class="title-h4 font-weight-bold"><i class="fa fa-clock-o"></i>&nbsp;Hours:</div>
+						<span>
+							<strong>Segunda - Sexta:</strong>&nbsp;09:00 - 18:00<br>
+							<strong>Sábado:</strong>&nbsp;Somente Suporte<br>
+							<strong>Domingo:</strong>&nbsp;Fechado
+						</span>
+					</div>
+					<ul class="social-link">
+						<li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+						<li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+						<li class="pinterest"><a href="#"><i class="fa fa-pinterest"></i></a></li>
+						<li class="gplus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+						<li class="dribbble"><a href="#"><i class="fa fa-dribbble"></i></a></li>
+					</ul>
+				</div>
+				<div class="col-lg-6 col-sm-5 wow fadeInUp delay-05s">
+					<div class="form">
+
+						<div id="sendmessage">Sua mensagem foi enviada. Obrigado!</div>
+						<div id="errormessage"></div>
+						<form action="" method="post" role="form" class="contactForm">
+							<div class="form-group">
+								<input type="text" name="name" class="form-control input-text" id="name" placeholder="Seu Nome" data-rule="minlen:4" data-msg="Por favor digite mais que 4 caracteres!" />
+								<div class="validation"></div>
+							</div>
+							<div class="form-group">
+								<input type="email" class="form-control input-text" name="email" id="email" placeholder="Seu e-mail" data-rule="email" data-msg="Por favor entre com um e-mail válido!" />
+								<div class="validation"></div>
+							</div>
+							<div class="form-group">
+								<input type="text" class="form-control input-text" name="subject" id="subject" placeholder="Assunto" data-rule="minlen:4" data-msg="Por favor digite mais que 8 caracteres!" />
+								<div class="validation"></div>
+							</div>
+							<div class="form-group">
+								<textarea class="form-control input-text text-area" name="message" rows="5" data-rule="required" data-msg="Por favor escreva sua mensagem para nós!" placeholder="Mensagem"></textarea>
+								<div class="validation"></div>
+							</div>
+
+							<div class="text-center"><button type="submit" class="input-btn">Enviar Mensagem</button></div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+{% endblock %}
+
+{% block footer %}
+	{% include 'footer.html' %}
+{% endblock %}
+
+{% block scripts %}
+	<script type="text/javascript">
+		$(document).ready(function(e) {
+			$('#test').scrollToFixed();
+			$('.res-nav_click').click(function() {
+				$('.main-nav').slideToggle();
+				return false
+			});
+		});
+	</script>
+
+	<script>
+		wow = new WOW({
+			animateClass: 'animated',
+			offset: 100
+		});
+		wow.init();
+	</script>
+
+
+	<script type="text/javascript">
+		$(window).on('load', function() {
+
+			$('.main-nav li a, .servicelink').bind('click', function(event) {
+				var $anchor = $(this);
+
+				$('html, body').stop().animate({
+					scrollTop: $($anchor.attr('href')).offset().top - 102
+				}, 1500, 'easeInOutExpo');
+				/*
+				if you don't want to use the easing effects:
+				$('html, body').stop().animate({
+					scrollTop: $($anchor.attr('href')).offset().top
+				}, 1000);
+				*/
+				if ($(window).width() < 768) {
+					$('.main-nav').hide();
+				}
+				event.preventDefault();
+			});
+		})
+	</script>
+{% endblock %}
