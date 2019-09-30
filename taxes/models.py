@@ -92,7 +92,7 @@ class NcmTaxes(models.Model):
                     'fk_taxes',
                     'fk_ncmcodes'
                 ],
-                name='pk_taxes'
+                name='pk_ncmtaxes'
             )
         ]
 
