@@ -8,6 +8,7 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
+
 """
 from decouple import config
 from dj_database_url import parse as dburl
@@ -32,6 +33,7 @@ ALLOWED_HOSTS = ['icity-tax.herokuapp.com', 'tax.icity.net.br', 'localhost']
 # Application definition
 
 INSTALLED_APPS = [
+    'import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,8 +43,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'rest_framework.authtoken',
-    'home',
-    'localization',
+    'home', # home page app
+    'localization', # app with model localization database
+    'registers', # app with model of users complement data
+    'customers', # app with model of customers
+    'taxesaux', # app with model of aux data
+    'taxes' # app with model taxes data
 ]
 
 MIDDLEWARE = [
