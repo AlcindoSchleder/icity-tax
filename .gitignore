@@ -105,6 +105,8 @@ venv.bak/
 
 # Sensible data
 common/config.json
+files
+diagrams
 
 # Editors data
 .idea
