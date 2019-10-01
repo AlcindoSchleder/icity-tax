@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from localization.models import States
 from taxes.models import Taxes, NcmTaxes
+from taxesaux.models import NcmCodes
 from registers.models import Registers, RegistersAddress
 from customers.models import Customers
 from .serializers import TaxesSerializer
@@ -135,8 +136,18 @@ class TaxesViewSet(viewsets.ModelViewSet):
             qsState = qs[0]
 
         to_client = str(qsState)
+        qsNCM = NcmCodes.objects.filter(pk_ncmcodes=product_ncm)
+        if len(qsNCM) > 0:
+            qsNCM = qsNCM[0]
+        ncm_category = str(qsNCM.fk_ncmcategories.pk_ncmcategories) + ' / ' + qsNCM.fk_ncmcategories.name_ncmcat
+        name_ncm = qsNCM.name_ncm;
+        ncm_unit = qsNCM.fk_baseunits.unit_symbol + ' / ' + qsNCM.fk_baseunits.name_unit
+
         return {
-            'message': 'Product not found!.',
+            'message': 'OK',
+            'category': ncm_category,
+            'product_NCM': name_ncm,
+            'unit': ncm_unit,
             'from': from_user,
             'to': to_client,
             'product_ncm': product_ncm,

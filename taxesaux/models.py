@@ -56,7 +56,7 @@ class NcmCategories(models.Model):
 
 class NcmCodes(models.Model):
 
-    pk_ncmcodes = models.CharField(max_length=15, primary_key=True, verbose_name='Código: ')
+    pk_ncmcodes = models.CharField(max_length=20, primary_key=True, verbose_name='Código: ')
     fk_ncmcategories = models.ForeignKey(NcmCategories, verbose_name='Categoria: ', on_delete=models.CASCADE)
     fk_baseunits = models.ForeignKey(BaseUnits, verbose_name='Unidade: ', on_delete=models.PROTECT)
     name_ncm = models.TextField(verbose_name='Descrição: ')
