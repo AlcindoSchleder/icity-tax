@@ -1,3 +1,5 @@
 from django.contrib import admin
+from .models import UsersContacts, UsersTests
 
-# Register your models here.
+admin.site.register(UsersTests)
+admin.site.register(UsersContacts)

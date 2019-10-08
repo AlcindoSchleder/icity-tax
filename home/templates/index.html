@@ -217,70 +217,119 @@
 					<div>
 						<h3 class="title-h3 text-white pb-4">Faça Um Teste Agora Mesmo!</h3>
 					</div>
-					<div class="row">
+					<div class="row test-taxes-api-userid">
 						<div class="col-md-12">
-							<form method="post" id="form-test-api">
+							<form method="post" id="form-get-token" data-key="get_test_token">
 								{% csrf_token %}
-								<label for="fk_state_origin" class="text-white">Selecione o Estado de Origem:</label>
-								<select id="fk_state_origin" name="fk_state_origin">
-									<option value="AC">Acre</option>
-									<option value="AL">Alagoas</option>
-									<option value="AM">Amazonas</option>
-									<option value="AP">Amapá</option>
-									<option value="CE">Ceará</option>
-									<option value="DF">Distrito Federal</option>
-									<option value="ES">Espírito Santo</option>
-									<option value="GO">Goiânia</option>
-									<option value="MA">Maranhão</option>
-									<option value="MG">Minas Gerais</option>
-									<option value="MS">Mato Grosso do Sul</option>
-									<option value="MT">Mato Grosso</option>
-									<option value="PA">Pará</option>
-									<option value="PB">Paraíba</option>
-									<option value="PE">Pernambuco</option>
-									<option value="PI">Piauí</option>
-									<option value="PR">Paraná</option>
-									<option value="RJ">Rio de Janeiro</option>
-									<option value="RN">Rio Grande do Norte</option>
-									<option value="RO">Rondônia</option>
-									<option value="RR">Roraima</option>
-									<option value="RS" selected="selected">Rio Grande do Sul</option>
-									<option value="SC">Santa Catarina</option>
-									<option value="SE">Sergipe</option>
-									<option value="SP">São Paulo</option>
-									<option value="TO">Tocantins</option>
-								</select>
-								<label for="fk_state_destiny" class="text-white">Selecione o Estado de Destino:</label>
-								<select id="fk_state_destiny" name="fk_state_destiny">
-									<option value="AC">Acre</option>
-									<option value="AL">Alagoas</option>
-									<option value="AM">Amazonas</option>
-									<option value="AP">Amapá</option>
-									<option value="CE">Ceará</option>
-									<option value="DF">Distrito Federal</option>
-									<option value="ES">Espírito Santo</option>
-									<option value="GO">Goiânia</option>
-									<option value="MA">Maranhão</option>
-									<option value="MG">Minas Gerais</option>
-									<option value="MS">Mato Grosso do Sul</option>
-									<option value="MT">Mato Grosso</option>
-									<option value="PA">Pará</option>
-									<option value="PB">Paraíba</option>
-									<option value="PE">Pernambuco</option>
-									<option value="PI">Piauí</option>
-									<option value="PR">Paraná</option>
-									<option value="RJ">Rio de Janeiro</option>
-									<option value="RN">Rio Grande do Norte</option>
-									<option value="RO">Rondônia</option>
-									<option value="RR">Roraima</option>
-									<option value="RS" selected="selected">Rio Grande do Sul</option>
-									<option value="SC">Santa Catarina</option>
-									<option value="SE">Sergipe</option>
-									<option value="SP">São Paulo</option>
-									<option value="TO">Tocantins</option>
-								</select>
-								<input type="text" id="ncm_code" name="ncm_code" placeholder="Código NCM do produto">
-								<button id="form-test-api-submit" type="submit" class="btn btn-info fa fa-send">Ok</button>
+								<input type="hidden" name="host-url" id="host-url1" value="{{ host_url }}">
+							    <div class="row form-group">
+									<div class="col-md-6">
+										<label for="username" class="text-white">Nome:</label>
+										<input type="text" name="username" id="username" class="form-control" aria-describedby="username-help" placeholder="Digite o seu nome:" required>
+										<small id="username-help" class="form-text text-muted">Digite seu nome para gerar um token.</small>
+									</div>
+									<div class="col-md-6">
+										<label for="usermail" class="text-white">e-Mail:</label>
+										<input type="email" name="usermail" id="usermail" class="form-control" aria-describedby="usermail-help" placeholder="Digite o seu e-mail:" required>
+										<small id="usermail-help" class="form-text text-muted">Digite seu e-mail para gerar um token.</small>
+									</div>
+								</div>
+							    <div class="row form-group">
+									<div class="col-md-6">
+										{{ captcha_form }}
+										<small id="captcha-help" class="form-text text-danger"></small>
+									</div>
+									<div class="col-md-6 text-left">
+										<button type="submit" class="btn btn-info fa fa-send btn-test-submit">Ok</button>
+										<small id="form-get-token-help" class="text-muted"></small>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="row d-none test-taxes-api">
+						<div class="col-md-12">
+							<form method="get" id="form-test-api" data-key="get_ncm_tax">
+								{% csrf_token %}
+								<input type="hidden" name="host-url" id="host-url2" value="{{ host_url }}">
+								<input type="hidden" name="token-access" id="token-access" value="">
+							    <div class="row form-group">
+									<div class="col-md-6">
+										<label for="fk_state-org" class="text-white">Selecione o Estado de Origem:</label>
+										<select id="fk_state-org" name="fk_state-org" class="form-control" aria-describedby="fk_state-org-help">
+											<option value="AC">Acre</option>
+											<option value="AL">Alagoas</option>
+											<option value="AM">Amazonas</option>
+											<option value="AP">Amapá</option>
+											<option value="CE">Ceará</option>
+											<option value="DF">Distrito Federal</option>
+											<option value="ES">Espírito Santo</option>
+											<option value="GO">Goiânia</option>
+											<option value="MA">Maranhão</option>
+											<option value="MG">Minas Gerais</option>
+											<option value="MS">Mato Grosso do Sul</option>
+											<option value="MT">Mato Grosso</option>
+											<option value="PA">Pará</option>
+											<option value="PB">Paraíba</option>
+											<option value="PE">Pernambuco</option>
+											<option value="PI">Piauí</option>
+											<option value="PR">Paraná</option>
+											<option value="RJ">Rio de Janeiro</option>
+											<option value="RN">Rio Grande do Norte</option>
+											<option value="RO">Rondônia</option>
+											<option value="RR">Roraima</option>
+											<option value="RS" selected="selected">Rio Grande do Sul</option>
+											<option value="SC">Santa Catarina</option>
+											<option value="SE">Sergipe</option>
+											<option value="SP">São Paulo</option>
+											<option value="TO">Tocantins</option>
+										</select>
+										<small id="fk_state-org-help" class="form-text text-muted">Selecione o estado de Origem.</small>
+									</div>
+									<div class="col-md-6">
+										<label for="fk_state_dst" class="text-white">Selecione o Estado de Destino:</label>
+										<select id="fk_state_dst" name="fk_state_dst"  class="form-control" aria-describedby="fk_state-dst-help">
+											<option value="AC">Acre</option>
+											<option value="AL">Alagoas</option>
+											<option value="AM">Amazonas</option>
+											<option value="AP">Amapá</option>
+											<option value="CE">Ceará</option>
+											<option value="DF">Distrito Federal</option>
+											<option value="ES">Espírito Santo</option>
+											<option value="GO">Goiânia</option>
+											<option value="MA">Maranhão</option>
+											<option value="MG">Minas Gerais</option>
+											<option value="MS">Mato Grosso do Sul</option>
+											<option value="MT">Mato Grosso</option>
+											<option value="PA">Pará</option>
+											<option value="PB">Paraíba</option>
+											<option value="PE">Pernambuco</option>
+											<option value="PI">Piauí</option>
+											<option value="PR">Paraná</option>
+											<option value="RJ">Rio de Janeiro</option>
+											<option value="RN">Rio Grande do Norte</option>
+											<option value="RO">Rondônia</option>
+											<option value="RR">Roraima</option>
+											<option value="RS" selected="selected">Rio Grande do Sul</option>
+											<option value="SC">Santa Catarina</option>
+											<option value="SE">Sergipe</option>
+											<option value="SP">São Paulo</option>
+											<option value="TO">Tocantins</option>
+										</select>
+										<small id="fk_state-dst-help" class="form-text text-muted">Selecione o estado de Destino.</small>
+									</div>
+								</div>
+								<div class="row form-group">
+									<div class="col-md-6">
+										<label for="ncm-code" class="text-white">Código NCM:</label>
+										<input type="text" id="ncm-code" name="ncm-code" placeholder="Código NCM do produto" class="form-control" aria-describedby="ncm-code-help">
+										<small id="ncm-code-help" class="form-text text-muted">Digite o código NCM do produto a consultar.</small>
+									</div>
+									<div class="col-md-6 text-left">
+										<button type="submit" class="btn btn-info fa fa-send btn-test-submit">Ok</button>
+										<small id="form-test-api-help" class="text-muted"></small>
+									</div>
+								</div>
 							</form>
 						</div>
 					</div>

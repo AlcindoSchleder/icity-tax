@@ -16,15 +16,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
-from rest_framework.authtoken import views
 from taxes.api.viewsets import TaxesViewSet
+from home.api.viewsets import UsersTestsViewSet, UsersTestsTokensViewSet
 
 router = routers.DefaultRouter()
-router.register(r'taxes', TaxesViewSet, base_name='Taxes') # base_bane é o nome do Modelo da tabela do banco de dados
+router.register(r'taxes', TaxesViewSet, base_name='Taxes')
+router.register(r'home/users_tests', UsersTestsViewSet, base_name='UsersTests')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
-    path('api-token-auth/', views.obtain_auth_token),
+    path('api/home/gen_test_token/', UsersTestsTokensViewSet.as_view(actions={"post": "gen_test_token"}), name='api_test_token'),
+    path('api/home/query_tax/', UsersTestsTokensViewSet.as_view(actions={"get": "query_test_tax"}), name='api_test_query'),
     path('api/', include(router.urls))
 ]

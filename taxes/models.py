@@ -98,3 +98,70 @@ class NcmTaxes(models.Model):
 
     def __str__(self):
         return self.fk_taxes.fk_type_taxes.name_tax + ' - ' + self.fk_ncmcodes.name_ncm
+
+    @staticmethod
+    def set_result_to_response(
+        qs,
+        country_origin,
+        state_origin,
+        from_user,
+        country,
+        state,
+        product_ncm
+    ):
+        if len(qs) > 0:
+            qsState = qs[0]
+
+        to_client = str(qsState)
+        qsNCM = NcmCodes.objects.filter(pk_ncmcodes=product_ncm)
+        if len(qsNCM) > 0:
+            qsNCM = qsNCM[0]
+        ncm_category = str(qsNCM.fk_ncmcategories.pk_ncmcategories) + ' / ' + qsNCM.fk_ncmcategories.name_ncmcat
+        name_ncm = qsNCM.name_ncm;
+        ncm_unit = qsNCM.fk_baseunits.unit_symbol + ' / ' + qsNCM.fk_baseunits.name_unit
+
+        return {
+            'message': 'OK',
+            'category': ncm_category,
+            'product_NCM': name_ncm,
+            'unit': ncm_unit,
+            'from': from_user,
+            'to': to_client,
+            'product_ncm': product_ncm,
+            'taxes': NcmTaxes.load_data_from_db(
+                country_origin,
+                state_origin,
+                country,
+                state,
+                product_ncm
+            )
+        }
+
+    @staticmethod
+    def load_data_from_db(
+        country_origin,
+        state_origin,
+        country,
+        state,
+        product
+    ):
+        qsTaxes = Taxes.objects.filter(
+            fk_countries_origin=country_origin,
+            fk_states_origin=str(country_origin) + '.' + state_origin,
+            fk_countries_destiny=country,
+            fk_states_destiny=str(country) + '.' + state,
+        )
+        taxes_list = []
+        for tax in qsTaxes:
+            qsTax = NcmTaxes.objects.filter(
+                fk_taxes=tax,
+                fk_ncmcodes=product
+            )
+            tax = {
+                'type_tax': str(tax.fk_type_taxes),
+                'tax': tax.taxdef
+            }
+            if qsTax:
+                tax['atx'] = qsTax.tax
+            taxes_list.append(tax)
+        return taxes_list

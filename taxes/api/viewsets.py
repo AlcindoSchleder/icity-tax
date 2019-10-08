@@ -1,12 +1,10 @@
 from rest_framework import viewsets
-from rest_framework.authentication import TokenAuthentication
 from rest_framework.decorators import action
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from localization.models import States
 from taxes.models import Taxes, NcmTaxes
-from taxesaux.models import NcmCodes
-from registers.models import Registers, RegistersAddress
 from customers.models import Customers
 from .serializers import TaxesSerializer
 
@@ -21,29 +19,39 @@ class TaxesViewSet(viewsets.ModelViewSet):
     authentication_classes = [TokenAuthentication]
 
     def get_queryset(self):
+        typeTax = self.request.query_params.get('type_tax')
+        getOrigin = self.request.query_params.get('get_origin')
         country = self.request.query_params.get('country')
         state = country + '.' + self.request.query_params.get('state')
         product_ncm = self.request.query_params.get('product_ncm')
-
-        return self.load_data_from_db(country, state, product_ncm)
+        fromUser = None
+        if getOrigin:
+            pkUser = self.request.auth.user.id
+            fromUser = Customers.get_orgin_data(pkUser)
+        qsTaxes = Taxes.objects.all()
+        if typeTax:
+            qsTaxes = qsTaxes.filter(fk_type_taxes_id=typeTax)
+        if fromUser:
+            qsTaxes = qsTaxes.filter(
+                fk_countries_origin_id=fromUser['country'],
+                fk_states_origin_id=fromUser['state']
+            )
+        if country and state:
+            qsTaxes = qsTaxes.filter(
+                fk_countries_destiny_id=fromUser['country'],
+                fk_states_destiny_id=fromUser['state']
+            )
+        qsNcmTaxes = NcmTaxes.objects.filter(pk_ncmtaxes_id__in=qsTaxes)
+        if product_ncm:
+            qsNcmTaxes = qsNcmTaxes.filter(fk_ncmcodes=product_ncm)
+        return qsNcmTaxes
 
     def list(self, request, *args, **kwargs):
         """
         Returns a list of registers for the queryset
         """
-        if not request.auth:
-            return Response({'message': 'Invalid credentials (login)!'}, 401)
-        if not request.auth.user.is_superuser:
+        if not request.auth and not request.auth.user.is_superuser:
             return Response({'message': 'Restriced Action!'}, 401)
-        user_pk = request.auth.user.id
-        register = Registers.objects.get(fk_user_id=user_pk)
-        if not register:
-            return Response({'message': 'Invalid credentials (registers)!'}, 401)
-        customer = Customers.objects.get(fk_registers_id=register.pk_registers)
-        if not customer:
-            return Response({'message': 'Invalid credentials (customers)!'}, 401)
-        if customer.flag_block:
-            return Response({'message': 'User blocked!'}, 401)
         return super(TaxesViewSet, self).list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
@@ -86,109 +94,6 @@ class TaxesViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Restriced Action!'}, 401)
         return super(TaxesViewSet, self).partial_update(request, *args, **kwargs)
 
-    def get_address_from_pk(self, pk):
-        list_codes = pk.split('.')
-        return list_codes[0], list_codes[1]
-
-    def get_orgin_data(self, user_pk):
-        register = Registers.objects.filter(fk_user_id=user_pk)
-        if not register:
-            return Response({'message': 'Invalid credentials (registers)!'}, 401)
-        if len(register) > 0:
-            register = register[0]
-        address = RegistersAddress.objects.filter(fk_registers_id=register.pk_registers)
-        address_default = address.filter(flag_default=True)
-        if address_default:
-            if len(address_default) > 0:
-                address = address_default[0]
-            country_origin, state_origin = self.get_address_from_pk(address_default.fk_cities_id)
-            address = address_default
-        elif address:
-            if len(address) > 0:
-                address = address[0]
-            country_origin, state_origin = self.get_address_from_pk(address.fk_cities_id)
-        else:
-            return Response({'message': 'Invalid credentials (Origin)!'}, 401)
-        customer = Customers.objects.filter(fk_registers_id=register.pk_registers)
-        if not customer:
-            return Response({'message': 'Invalid credentials (customers)!'}, 401)
-        if len(customer) > 0:
-            customer = customer[0]
-        if customer.flag_block:
-            return Response({'message': 'User blocked!'}, 401)
-        return {
-            'country_origin': country_origin,
-            'state_origin': state_origin,
-            'from_user': register.name_register + ' - ' + address.country + '/' + address.state
-        }
-
-    def set_result_to_response(
-        self,
-        qs,
-        country_origin,
-        state_origin,
-        from_user,
-        country,
-        state,
-        product_ncm
-    ):
-        if len(qs) > 0:
-            qsState = qs[0]
-
-        to_client = str(qsState)
-        qsNCM = NcmCodes.objects.filter(pk_ncmcodes=product_ncm)
-        if len(qsNCM) > 0:
-            qsNCM = qsNCM[0]
-        ncm_category = str(qsNCM.fk_ncmcategories.pk_ncmcategories) + ' / ' + qsNCM.fk_ncmcategories.name_ncmcat
-        name_ncm = qsNCM.name_ncm;
-        ncm_unit = qsNCM.fk_baseunits.unit_symbol + ' / ' + qsNCM.fk_baseunits.name_unit
-
-        return {
-            'message': 'OK',
-            'category': ncm_category,
-            'product_NCM': name_ncm,
-            'unit': ncm_unit,
-            'from': from_user,
-            'to': to_client,
-            'product_ncm': product_ncm,
-            'taxes': self.load_data_from_db(
-                country_origin,
-                state_origin,
-                country,
-                state,
-                product_ncm
-            )
-        }
-
-    def load_data_from_db(
-        self,
-        country_origin,
-        state_origin,
-        country,
-        state,
-        product
-    ):
-        qsTaxes = Taxes.objects.filter(
-            fk_countries_origin=country_origin,
-            fk_states_origin=str(country_origin) + '.' + state_origin,
-            fk_countries_destiny=country,
-            fk_states_destiny=str(country) + '.' + state,
-        )
-        taxes_list = []
-        for tax in qsTaxes:
-            qsTax = NcmTaxes.objects.filter(
-                fk_taxes=tax,
-                fk_ncmcodes=product
-            )
-            tax = {
-                'type_tax': str(tax.fk_type_taxes),
-                'tax': tax.taxdef
-            }
-            if qsTax:
-                tax['atx'] = qsTax.tax
-            taxes_list.append(tax)
-        return taxes_list
-
     @action(methods=['POST'], detail=False)
     def product_tax(self, request):
         """
@@ -198,9 +103,9 @@ class TaxesViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Invalid credentials (login)!'}, 401)
         user_pk = request.auth.user.id
 
-        from_user = self.get_orgin_data(user_pk)
+        from_user = Customers.get_orgin_data(user_pk)
         if 'message' in from_user.keys():
-            return from_user
+            return Response(from_user, from_user['status'])
 
         country = request.data['country']
         state = request.data['state']
@@ -210,7 +115,7 @@ class TaxesViewSet(viewsets.ModelViewSet):
         if not qsState:
             return Response({'message': 'Invalid Destination!'}, 401)
 
-        return Response(self.set_result_to_response(
+        return Response(NcmTaxes.set_result_to_response(
             qsState,
             from_user['country_origin'],
             from_user['state_origin'],
