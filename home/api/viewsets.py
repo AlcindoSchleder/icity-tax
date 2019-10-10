@@ -8,6 +8,9 @@ from rest_framework.decorators import action, authentication_classes, permission
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
+
+from localization.models import States
+from taxes.models import NcmTaxes
 from .serializers import UsersTestsSerializer, UsersTestsSerializer
 from home.models import UsersTests, UsersContacts
 
@@ -62,10 +65,10 @@ class UsersTestsTokensViewSet(viewsets.ViewSet):
 
         payload = {
             'iss': 'https://tax.icity.net.br/',
-            'sub': 0,
-            'iat': datetime.now(),
-            'exp': datetime.now() + timedelta(seconds=300),
-            'aud': 'i-city Tax',
+            'sub': qtd_tests,
+            'iat': datetime.utcnow(),
+            'exp': datetime.utcnow() + timedelta(seconds=300),
+            # 'aud': 'http://127.0.1.1/',
             'user_name': request.data['username'],
             'user_mail': request.data['usermail'],
         }
@@ -79,18 +82,26 @@ class UsersTestsTokensViewSet(viewsets.ViewSet):
     @action(methods=['GET'], detail=False)
     def query_test_tax(self, request):
         auth = request.headers['authorization'].split(' ')
+        if auth[0] != 'token':
+            return Response({'message': 'Authorization in header not contain a token'})
+        token = auth[1]
         data = request.query_params
         try:
-            if auth[0] != data['token-access']:
-                return Response({'message': 'Erro critico!! O token do header não correspende a um token jwt: ' + auth[1]}, 403)
-            result = {}
-            if auth[0] == 'token':
-               result = jwt.api_jwt.decode(auth[1], SECRET_KEY, algorithms='HS256')
+            result = jwt.api_jwt.decode(token, SECRET_KEY, algorithms='HS256')
         except Exception as e:
-            return Response({'message': 'Erro ao confirmar o token: ' + auth[1] + ' erro: ' + e}, 403)
+            return Response({'message': 'Erro ao confirmar o token: ' + token + ' erro: ' + e}, 403)
         if not result:
             return Response({'message': 'API não autorizada (token)!'}, 401)
-        return Response({'message': 'Forbidden!', 'getData': data}, 403)
+        # get data from Taxes
+        return Response(NcmTaxes.set_result_to_response(
+            country_origin=data['fk_country'],
+            state_origin=data['fk_state_org'],
+            from_user=result['user_name'],
+            country_destiny=data['fk_country'],
+            state_destiny=data['fk_state_dst'],
+            product_ncm=data['ncm_code'],
+            to_clinet=result['user_mail']
+        ), 200)
 
 
 class UsersTestsViewSet(viewsets.ModelViewSet):

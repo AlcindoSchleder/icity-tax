@@ -17,6 +17,7 @@ var IndexEvents = function () {
         1: 'text-danger',
         2: 'text-success'
     }
+    var reCaptchaIDs = [];
 
     var documentEvents = function () {
         wow = new WOW({
@@ -36,6 +37,9 @@ var IndexEvents = function () {
             return false
         });
         $('.serviceLink').scrollToFixed();
+        $('#taxesModal').on('hidden.bs.modal', function (e) {
+            location.reload();
+        })
     };
     var handleDynamicLinks = function () {
         $('.main-nav li a, .servicelink').bind('click', function(event) {
@@ -77,25 +81,26 @@ var IndexEvents = function () {
        return js;
     };
     var showSearchTax = function () {
-        $('.test-taxes-api-userid').fadeOut('slow', function () {
+        $('.test-taxes-api-token').fadeOut('slow', function () {
             $(this).addClass('d-none');
-            $('.test-taxes-api').removeClass('d-none').fadeIn('slow', clearForm(this));
+            $('.test-taxes-api-search').removeClass('d-none').fadeIn('slow', clearForm(this));
         });
     }
     var clearForm = function (form) {
-        $(form).find('input[type=text]').val('');
+        $(form).find('input[type=text],input[type=email]').val('');
     }
     var hideSearchTax = function () {
-        $('.test-taxes-api').fadeOut('slow', function () {
+        $('.test-taxes-api-search').fadeOut('slow', function () {
             $(this).addClass('d-none');
-            $('.test-taxes-api').removeClass('d-none').fadeIn('slow', clearForm(this));
+            initRecaptcha();
+            $('.test-taxes-api-token').removeClass('d-none').fadeIn('slow', clearForm(this));
         });
     }
-    var configureSearchTax = function () {
-        if ($('.test-taxes-api-userid').hasClass('d-none')) {
-            hideSearchTax();
-        } else {
+    var configureSearchTax = function (show=true) {
+        if (show) {
             showSearchTax();
+        } else {
+            hideSearchTax();
         }
     }
     var getTokenToTest = function () {
@@ -127,6 +132,8 @@ var IndexEvents = function () {
     };
     var getQueryTax = function () {
         data = serializerJson('#form-test-api');
+        token = data['token-access'];
+        data['token-access'] = null;
         let url = data['host-url'] + "/api/home/query_tax/";
         console.log(data);
         $.ajax({
@@ -134,21 +141,43 @@ var IndexEvents = function () {
             url: url,
             data: data,
             headers: {
-                "Authorization": "token " + data['token-access']
+                "Authorization": "token " + token
             },
             success: function(d) {
-                d = JSON.parse(d);
-                // display modalform with data
-                IndexEvents.showMessageIn('#form-test-api-help', 'Consulta à API realizada com sucesso!', SUCCESS);
-                oonsole.log(d);
-                configureSearchTax();
+                if (typeof(d) == 'string'){
+                    d = JSON.parse(d);
+                };
+                console.log(d);
+                fillModalScreen(d);
+                $('#taxesModal').modal('show');
+                configureSearchTax(show=false);
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 let errMsg = 'Um erro ocorreu ao chamar a API: status(' + textStatus + ') erro( ' + errorThrown + ')';
-                IndexEvents.showMessageIn('#form-test-api-help', errMsg, ERROR);
+                configureSearchTax(show=false);
+                IndexEvents.showMessageIn('#form-get-token-help', errMsg, ERROR);
                 console.log('erro....', errMsg);
             },
             dataType: "json"
+        });
+    }
+    var fillModalScreen = function (data) {
+        $('.msg').html(data.message == 'OK' ? 'Produto Encontrado!' : 'Produto Não Encontrado!');
+        $('.ncmCategory').html(data.category);
+        $('.ncmProduct').html(data.product_NCM);
+        $('.ncmUnity').html(data.unit);
+        $('.ncmOrigin').html(data.from);
+        $('.ncmDestiny').html(data.to);
+        $('.tbTaxes .tbbody').html('');
+        idx = 1;
+        data.taxes.forEach(function (tax) {
+            $(".tbTaxes .tbbody").append(
+                "<div class='row " + idx +  "'>" +
+                    "<div class='type_tax col-6'>" + tax.type_tax + "</div>" +
+                    "<div class='tax col-6'>" + tax.tax + "% </div>" +
+                "</div>"
+            );
+            idx += 1
         });
     }
     var gotoTop = function () {

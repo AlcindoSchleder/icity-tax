@@ -123,7 +123,7 @@
 				<span class="superscript plan-period">&nbsp;&nbsp;/&nbsp;mês</span>
 			</h2>
             <div class="row">
-                <div class="col-xs-12 col-md-4">
+                <div class="col-xs-12 col-4">
                     <div class="box-plans">
                         <h3 class="box-header title-h2 py-3 bg-success">Plano Prata</h3>
                         <div class="box-body">
@@ -152,7 +152,7 @@
 						</div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-4">
+                <div class="col-xs-12 col-4">
                     <div class="box-plans">
 						<div class="ribbon"><span>MAIS VENDIDO</span></div>
                         <h3 class="box-header title-h2 py-3 bg-success">Plano Ouro</h3>
@@ -182,7 +182,7 @@
 						</div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-md-4">
+                <div class="col-xs-12 col-4">
                     <div class="box-plans">
                         <h3 class="box-header title-h2 py-3 bg-success">Plano VIP</h3>
                         <div class="box-body">
@@ -213,33 +213,33 @@
                 </div>
             </div>
 			<div class="row text-center footer-plans">
-				<div class="col-md-12 ">
+				<div class="col-12 ">
 					<div>
 						<h3 class="title-h3 text-white pb-4">Faça Um Teste Agora Mesmo!</h3>
 					</div>
-					<div class="row test-taxes-api-userid">
-						<div class="col-md-12">
+					<div class="row test-taxes-api-token">
+						<div class="col-12">
 							<form method="post" id="form-get-token" data-key="get_test_token">
 								{% csrf_token %}
 								<input type="hidden" name="host-url" id="host-url1" value="{{ host_url }}">
 							    <div class="row form-group">
-									<div class="col-md-6">
+									<div class="col-6">
 										<label for="username" class="text-white">Nome:</label>
 										<input type="text" name="username" id="username" class="form-control" aria-describedby="username-help" placeholder="Digite o seu nome:" required>
 										<small id="username-help" class="form-text text-muted">Digite seu nome para gerar um token.</small>
 									</div>
-									<div class="col-md-6">
+									<div class="col-6">
 										<label for="usermail" class="text-white">e-Mail:</label>
 										<input type="email" name="usermail" id="usermail" class="form-control" aria-describedby="usermail-help" placeholder="Digite o seu e-mail:" required>
 										<small id="usermail-help" class="form-text text-muted">Digite seu e-mail para gerar um token.</small>
 									</div>
 								</div>
 							    <div class="row form-group">
-									<div class="col-md-6">
+									<div class="col-6">
 										{{ captcha_form }}
 										<small id="captcha-help" class="form-text text-danger"></small>
 									</div>
-									<div class="col-md-6 text-left">
+									<div class="col-6 text-left">
 										<button type="submit" class="btn btn-info fa fa-send btn-test-submit">Ok</button>
 										<small id="form-get-token-help" class="text-muted"></small>
 									</div>
@@ -247,16 +247,16 @@
 							</form>
 						</div>
 					</div>
-					<div class="row d-none test-taxes-api">
-						<div class="col-md-12">
+					<div class="row d-none test-taxes-api-search">
+						<div class="col-12">
 							<form method="get" id="form-test-api" data-key="get_ncm_tax">
-								{% csrf_token %}
 								<input type="hidden" name="host-url" id="host-url2" value="{{ host_url }}">
 								<input type="hidden" name="token-access" id="token-access" value="">
+								<input type="hidden" name="fk_country" id=fk_country" value="55">
 							    <div class="row form-group">
-									<div class="col-md-6">
-										<label for="fk_state-org" class="text-white">Selecione o Estado de Origem:</label>
-										<select id="fk_state-org" name="fk_state-org" class="form-control" aria-describedby="fk_state-org-help">
+									<div class="col-6">
+										<label for="fk_state_org" class="text-white">Selecione o Estado de Origem:</label>
+										<select id="fk_state_org" name="fk_state_org" class="form-control" aria-describedby="fk_state_org-help">
 											<option value="AC">Acre</option>
 											<option value="AL">Alagoas</option>
 											<option value="AM">Amazonas</option>
@@ -284,9 +284,9 @@
 											<option value="SP">São Paulo</option>
 											<option value="TO">Tocantins</option>
 										</select>
-										<small id="fk_state-org-help" class="form-text text-muted">Selecione o estado de Origem.</small>
+										<small id="fk_state_org-help" class="form-text text-muted">Selecione o estado de Origem.</small>
 									</div>
-									<div class="col-md-6">
+									<div class="col-6">
 										<label for="fk_state_dst" class="text-white">Selecione o Estado de Destino:</label>
 										<select id="fk_state_dst" name="fk_state_dst"  class="form-control" aria-describedby="fk_state-dst-help">
 											<option value="AC">Acre</option>
@@ -320,12 +320,12 @@
 									</div>
 								</div>
 								<div class="row form-group">
-									<div class="col-md-6">
-										<label for="ncm-code" class="text-white">Código NCM:</label>
-										<input type="text" id="ncm-code" name="ncm-code" placeholder="Código NCM do produto" class="form-control" aria-describedby="ncm-code-help">
-										<small id="ncm-code-help" class="form-text text-muted">Digite o código NCM do produto a consultar.</small>
+									<div class="col-6">
+										<label for="ncm_code" class="text-white">Código NCM:</label>
+										<input type="text" id="ncm_code" name="ncm_code" placeholder="Código NCM do produto" class="form-control" aria-describedby="ncm_code-help">
+										<small id="ncm_code-help" class="form-text text-muted">Digite o código NCM do produto a consultar.</small>
 									</div>
-									<div class="col-md-6 text-left">
+									<div class="col-6 text-left">
 										<button type="submit" class="btn btn-info fa fa-send btn-test-submit">Ok</button>
 										<small id="form-test-api-help" class="text-muted"></small>
 									</div>
@@ -336,6 +336,80 @@
 				</div>
 			</div>
         </div>
+		<!-- Modal -->
+		<div class="modal fade" id="taxesModal" tabindex="-1" role="dialog" aria-labelledby="taxesModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="taxesModalLabel">Resultado da Busca do Imposto</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="col-12">
+								<label class="float-left">Mensagem:&nbsp;</label>
+								<div class="msg text-success float-left">Produto encontrado</div>
+							</div>
+						</div>
+						<div class="clearfix row">
+							<div class="col-12 d-inline">
+								<label class="float-left">Categoria:&nbsp;</label>
+								<div class="ncmCategory float-left">Categoria do NCM</div>
+							</div>
+						</div>
+						<div class="clearfix row">
+							<div class="col-12 d-inline">
+								<label class="float-left">Classif. Produto:&nbsp;</label>
+								<span class="productCode float-left">90251910&nbsp;-&nbsp;</span>
+								<div class="ncmProduct text-body font-weight-bold text-wrap float-left">NCM do Produto</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-12">
+								<label class="float-left">Unidade:&nbsp;</label>
+								<div class="ncmUnity text-body float-left">Unidade</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-5">
+								<label class="float-left">Origem:&nbsp;</label>
+								<div class="ncmOrigin float-left text-body font-weight-bold">RS</div>
+							</div>
+							<div class="col-2"></div>
+							<div class="col-5">
+								<label class="float-left">Destino:&nbsp;</label>
+								<div class="ncmDestiny float-left text-body font-weight-bold">RS</div>
+							</div>
+						</div>
+						<div class="row clearfix">
+							<div class="col-12 text-center">Impostos</div>
+						</div><hr>
+						<div class="row">
+							<div class="col-12 text-center">
+								<div class="tbTaxes">
+									<div class="tbheader row">
+										<div class="col-6">Tipo</div>
+										<div class="col-6">Percentual</div>
+									</div>
+										<!-- for to show all taxes -->
+									<div class="tbbody">
+										<div class="row 1">
+											<div class="type_tax col-6">ICMS</div>
+											<div class="tax col-6">12,00%</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
     </section>
 {% endblock %}
 

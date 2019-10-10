@@ -116,11 +116,11 @@ class TaxesViewSet(viewsets.ModelViewSet):
             return Response({'message': 'Invalid Destination!'}, 401)
 
         return Response(NcmTaxes.set_result_to_response(
-            qsState,
-            from_user['country_origin'],
-            from_user['state_origin'],
-            from_user['from_user'],
-            country,
-            state,
-            product_ncm
+            country_origin=from_user['country_origin'],
+            state_origin=from_user['state_origin'],
+            from_user=from_user['from_user'],
+            country=country,
+            state=state,
+            product_ncm=product_ncm,
+            qs=qsState
         ))

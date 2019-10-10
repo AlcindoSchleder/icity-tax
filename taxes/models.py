@@ -100,19 +100,39 @@ class NcmTaxes(models.Model):
         return self.fk_taxes.fk_type_taxes.name_tax + ' - ' + self.fk_ncmcodes.name_ncm
 
     @staticmethod
-    def set_result_to_response(
-        qs,
-        country_origin,
-        state_origin,
-        from_user,
-        country,
-        state,
-        product_ncm
-    ):
-        if len(qs) > 0:
-            qsState = qs[0]
+    def set_result_to_response(**kwargs):
+        """
+        Função que retorna a formatação completa do resultado em json
+        :param country_origin: País de Orígem (requerido)
+        :param state_origin: Estado de Origem (requerido)
+        :param from_user: Nome do Usuário solicitange (opcional)
+        :param country_destiny: País de Destino (requerido)
+        :param state_destiny: Estado de Destino (requerido)
+        :param product_ncm: Código NCM do Produto (requerido)
+        :param to_client: Cliente de Destino (opcional)
+        :param qs: Query Set contendo o estado de Destino (opcional)
+        :return: json
+        """
+        country_origin = kwargs.get('country_origin')
+        state_origin = kwargs.get('state_origin')
+        from_user = kwargs.get('from_user') if ('from_user' in kwargs.keys()) else 'system'
+        country = kwargs.get('country_destiny')
+        state = kwargs.get('state_destiny')
+        product_ncm = kwargs.get('product_ncm')
+        to_client = kwargs.get('to_client') if ('to_client' in kwargs.keys()) else None
+        qs = kwargs.get('qs') if ('qs' in kwargs.keys()) else None
 
-        to_client = str(qsState)
+        qsState = None
+        if qs:
+            if len(qs) > 0:
+                qsState = qs[0]
+        if qsState:
+            client = str(qsState)
+        elif to_client:
+            client = to_client
+        else:
+            client = None;
+
         qsNCM = NcmCodes.objects.filter(pk_ncmcodes=product_ncm)
         if len(qsNCM) > 0:
             qsNCM = qsNCM[0]
@@ -126,25 +146,34 @@ class NcmTaxes(models.Model):
             'product_NCM': name_ncm,
             'unit': ncm_unit,
             'from': from_user,
-            'to': to_client,
+            'to': client,
             'product_ncm': product_ncm,
             'taxes': NcmTaxes.load_data_from_db(
-                country_origin,
-                state_origin,
-                country,
-                state,
-                product_ncm
+                country_origin=country_origin,
+                state_origin=state_origin,
+                country_destiny=country,
+                state_destiny=state,
+                product=product_ncm
             )
         }
 
     @staticmethod
-    def load_data_from_db(
-        country_origin,
-        state_origin,
-        country,
-        state,
-        product
-    ):
+    def load_data_from_db(**kwargs):
+        """
+        Função que busca todos os impostos do produto
+        :param country_origin: País de Origem (requerido)
+        :param state_origin: Estado de Origem (requerido)
+        :param country_destiny: País de Destino (requerido)
+        :param state_destiny: Estado de Destino (requerido)
+        :param product: Código NCM do produto (requerido)
+        :return: json
+        """
+        country_origin = kwargs.get('country_origin')
+        state_origin  = kwargs.get('state_origin')
+        country  = kwargs.get('country_destiny')
+        state = kwargs.get('state_destiny')
+        product = kwargs.get('product')
+
         qsTaxes = Taxes.objects.filter(
             fk_countries_origin=country_origin,
             fk_states_origin=str(country_origin) + '.' + state_origin,
