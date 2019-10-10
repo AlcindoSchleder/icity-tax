@@ -135,7 +135,6 @@ var IndexEvents = function () {
         token = data['token-access'];
         data['token-access'] = null;
         let url = data['host-url'] + "/api/home/query_tax/";
-        console.log(data);
         $.ajax({
             type: "GET",
             url: url,
@@ -147,7 +146,6 @@ var IndexEvents = function () {
                 if (typeof(d) == 'string'){
                     d = JSON.parse(d);
                 };
-                console.log(d);
                 fillModalScreen(d);
                 $('#taxesModal').modal('show');
                 configureSearchTax(show=false);
@@ -220,7 +218,6 @@ var IndexEvents = function () {
                     getTokenToTest();
                     break;
                 case 'get_ncm_tax':
-                    console.log('Call getTestTaxes() and show Result');
                     getQueryTax();
                     break;
                 default:
